@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic.simple import direct_to_template
 from testapp.forms import CreateGreetingForm
 from testapp.models import Greeting
+import django
 
 
 MEMCACHE_GREETINGS = 'greetings'
@@ -16,7 +17,8 @@ def list_greetings(request):
         cache.add(MEMCACHE_GREETINGS, greetings)
     return direct_to_template(request, 'testapp/index.html',
                               {'greetings': greetings,
-                               'form': CreateGreetingForm()})
+                               'form': CreateGreetingForm(),
+                               'djversion': django.get_version()})
 
 def create_greeting(request):
     if request.method == 'POST':
